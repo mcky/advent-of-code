@@ -99,7 +99,7 @@ defmodule AOC.Puzzles.DayFour do
 
     init_w_pos = init_boards |> Enum.map(fn b -> {nil, nil, b} end)
 
-    x =
+    solved_boards =
       Enum.reduce(
         Enum.with_index(numbers),
         init_w_pos,
@@ -123,17 +123,15 @@ defmodule AOC.Puzzles.DayFour do
         end
       )
 
-    [last | _rest] = x |> Enum.sort(:desc)
+    [last | _rest] = solved_boards |> Enum.sort(:desc)
 
-    {_pos, called, b} = last
+    {_pos, last_winning_call, last_winning_board} = last
 
-    sum_of_remainder(b) * called
+    sum_of_remainder(last_winning_board) * last_winning_call
   end
 
   def part_two_v2(input) do
     {numbers, init_boards} = process_d4(input)
-
-    init_w_pos = init_boards |> Enum.map(fn b -> {nil, nil, b} end)
 
     Enum.reduce_while(
       numbers,

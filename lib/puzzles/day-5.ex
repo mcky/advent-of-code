@@ -8,7 +8,7 @@ defmodule AOC.Puzzles.DayFive do
     {from, to}
   end
 
-  def diagonal_coords(vent = {from, to}) do
+  def diagonal_coords(_vent = {from, to}) do
     [x1, y1] = from
     [x2, y2] = to
 
@@ -19,15 +19,11 @@ defmodule AOC.Puzzles.DayFive do
     |> List.zip()
   end
 
-  def non_diag_coords(vent = {from, to}) do
+  def non_diag_coords(_vent = {from, to}) do
     [x1, y1] = from
     [x2, y2] = to
-    # 0,9->5,9
-    # 1,9
-    # 2,9
-    # 3,9
-    # 4,9
-    # 5,9
+
+    # cartesian of x/y coords
     for x <- x1..x2, y <- y1..y2 do
       {x, y}
     end
