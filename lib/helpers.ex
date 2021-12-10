@@ -8,7 +8,7 @@ defmodule AOC.Helpers do
 
   def ints_from_string(string, split_on \\ " ") do
     string
-    |> String.split(split_on)
+    |> String.split(split_on, trim: true)
     |> Enum.map(&safe_parse_int/1)
   end
 
