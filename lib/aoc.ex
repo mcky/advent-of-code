@@ -4,8 +4,8 @@ defmodule AOC do
   def current_day do
     HTTPoison.start()
 
-    AOC.Setup.get_input(6, :simple)
-    |> AOC.Puzzles.DaySix.part_two()
+    AOC.Setup.get_input(10)
+    |> AOC.Puzzles.DayTen.part_two()
     |> IO.inspect(charlists: :as_lists, label: "Result")
 
     :ok
