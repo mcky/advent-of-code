@@ -1,4 +1,4 @@
-defmodule AocTest do
+defmodule AocTest.DayNine do
   use ExUnit.Case
   doctest AOC.Puzzles.DayNine
   import AOC.Puzzles.DayNine

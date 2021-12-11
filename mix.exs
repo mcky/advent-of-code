@@ -23,7 +23,8 @@ defmodule Aoc.MixProject do
   defp deps do
     [
       {:httpoison, "~> 1.8"},
-      {:benchee, "~> 1.0", only: :dev}
+      {:benchee, "~> 1.0", only: :dev},
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end
 end

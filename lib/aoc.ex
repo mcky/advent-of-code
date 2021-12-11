@@ -1,6 +1,4 @@
 defmodule AOC do
-  @on_load :current_day
-
   def current_day do
     HTTPoison.start()
 
