@@ -2,9 +2,10 @@ defmodule Matrix do
   defstruct items: %{}
 
   def to_matrix_map(list_of_lists) do
-    indexed = list_of_lists
-    |> Enum.map(&Enum.with_index/1)
-    |> Enum.with_index()
+    indexed =
+      list_of_lists
+      |> Enum.map(&Enum.with_index/1)
+      |> Enum.with_index()
 
     for {row, y} <- indexed do
       for {el, x} <- row do
@@ -15,9 +16,13 @@ defmodule Matrix do
     |> Map.new()
   end
 
-  def new(list_of_lists) do
+  def new(list_of_lists) when is_list(list_of_lists) do
+    list_of_lists |> to_matrix_map |> new()
+  end
+
+  def new(map) when is_map(map) do
     %Matrix{
-      items: to_matrix_map(list_of_lists)
+      items: map
     }
   end
 
@@ -38,7 +43,27 @@ defmodule Matrix do
     {w, h}
   end
 
+  def neighboring_coordinates(%Matrix{items: items}, _points = {x, y}, :all) do
+    [
+      # {x-1, y-1},{x, y-1},{x+1, y-1},
+      # {x-1, y  },  x,y    {x+1, y  },
+      # {x-1, y+1},{x, y+1},{x+1, y+1},
+      {x - 1, y - 1},
+      {x, y - 1},
+      {x + 1, y - 1},
+      {x - 1, y},
+      {x + 1, y},
+      {x - 1, y + 1},
+      {x, y + 1},
+      {x + 1, y + 1}
+    ]
+    |> Enum.filter(&Map.has_key?(items, &1))
+  end
+
   def neighboring_coordinates(%Matrix{items: items}, _points = {x, y}) do
+    #         {x, y-1}
+    # {x-1, y}  x,y  {x+1, y},
+    #         {x, y+1}
     [{x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}]
     |> Enum.filter(&Map.has_key?(items, &1))
   end
@@ -72,4 +97,9 @@ defmodule Matrix do
     matrix
   end
 
+  def map(%Matrix{items: items}, fun) do
+    Enum.map(items, fun)
+    |> Map.new()
+    |> Matrix.new()
+  end
 end
