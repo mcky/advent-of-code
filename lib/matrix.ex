@@ -97,6 +97,10 @@ defmodule Matrix do
     matrix
   end
 
+  def count(%Matrix{items: items}) do
+    Enum.count(items)
+  end
+
   def map(%Matrix{items: items}, fun) do
     Enum.map(items, fun)
     |> Map.new()

@@ -1,5 +1,5 @@
 defmodule AOC.Helpers do
-  defp safe_parse_int(string) do
+  def safe_parse_int(string) do
     case Integer.parse(string) do
       {n, _rem} -> n
       :error -> string
