@@ -15,7 +15,8 @@ defmodule AOC.Setup do
          ) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> {:ok, body}
       {:ok, %HTTPoison.Response{status_code: 404}} -> {:error, :notfound}
-      _ -> {:error}
+      {:ok, %HTTPoison.Response{status_code: 400}} -> {:error, :invalid_session}
+      {:error, err} -> {:error, err}
     end
   end
 
@@ -52,8 +53,11 @@ defmodule AOC.Setup do
       File.stream!(file_name)
       |> format_file
     else
-      download_input(day_n)
-      get_input(day_n)
+      with :ok <- download_input(day_n) do
+        get_input(day_n)
+      else
+        _ -> raise "Download error"
+      end
     end
   end
 end
