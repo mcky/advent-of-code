@@ -97,6 +97,10 @@ defmodule Matrix do
     matrix
   end
 
+  def merge(%Matrix{items: items_a}, %Matrix{items: items_b}) do
+    Map.merge(items_a, items_b) |> Matrix.new()
+  end
+
   def count(%Matrix{items: items}) do
     Enum.count(items)
   end
