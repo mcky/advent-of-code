@@ -1,8 +1,15 @@
 defmodule Packet do
   defstruct [:type, :version, :body]
 
+  def get_type(0), do: :sum
+  def get_type(1), do: :product
+  def get_type(2), do: :min
   def get_type(4), do: :literal
-  def get_type(_n), do: :operator
+  def get_type(3), do: :max
+  def get_type(5), do: :gt
+  def get_type(6), do: :lt
+  def get_type(7), do: :eq
+  def get_type(_n), do: :unknown
 
   def new(type, version, body) do
     %Packet{
@@ -10,6 +17,22 @@ defmodule Packet do
       version: version,
       body: body
     }
+  end
+
+  def eval_fn(:sum), do: &Enum.sum/1
+  def eval_fn(:product), do: &Enum.product/1
+  def eval_fn(:min), do: &Enum.min/1
+  def eval_fn(:max), do: &Enum.max/1
+  def eval_fn(:lt), do: fn [a, b] -> if a < b, do: 1, else: 0 end
+  def eval_fn(:gt), do: fn [a, b] -> if a > b, do: 1, else: 0 end
+  def eval_fn(:eq), do: fn [a, b] -> if a == b, do: 1, else: 0 end
+
+  def eval(%Packet{type: :literal, body: value}), do: value
+
+  def eval(%Packet{type: type, body: children}) when is_list(children) do
+    values = Enum.map(children, &eval/1)
+    f = eval_fn(type)
+    f.(values)
   end
 end
 
@@ -107,12 +130,14 @@ defmodule AOC.Puzzles.DaySixteen do
       "0" ->
         {subp_bit_len, remainder} = String.split_at(remainder, 15)
         subp_len = parse_binary(subp_bit_len)
-        {sub_packet_string, foo} = String.split_at(remainder, subp_len)
-        {scan_binary_s(sub_packet_string), foo}
+        {sub_packet_string, remainder} = String.split_at(remainder, subp_len)
+
+        {scan_binary_s(sub_packet_string), remainder}
 
       "1" ->
         {num_subpackets_bits, remainder} = String.split_at(remainder, 11)
         num_subpackets = parse_binary(num_subpackets_bits)
+
         scan_binary_until(remainder, num_subpackets)
     end
   end
@@ -130,23 +155,16 @@ defmodule AOC.Puzzles.DaySixteen do
   def parse_packet(binary_s) do
     {version, type, remainder} = packet_header(binary_s)
 
-    case type do
-      4 ->
-        {body, remainder} = parse_literal_body(remainder)
+    {body, remainder} =
+      case type do
+        4 -> parse_literal_body(remainder)
+        _operator -> parse_operator(remainder)
+      end
 
-        {
-          Packet.new(type, version, body),
-          remainder
-        }
-
-      n ->
-        {body, remainder} = parse_operator(remainder)
-
-        {
-          Packet.new(type, version, body),
-          remainder
-        }
-    end
+    {
+      Packet.new(type, version, body),
+      remainder
+    }
   end
 
   def sum_version_numbers(%Packet{version: version, body: body}) when is_list(body) do
@@ -160,17 +178,22 @@ defmodule AOC.Puzzles.DaySixteen do
     version
   end
 
-  def part_one(input) do
+  def hex_to_packets(input) do
     {packets, _} =
       input
       |> parse()
       |> parse_packet()
 
+    packets
+  end
+
+  def part_one(input) do
+    packets = hex_to_packets(input)
     sum_version_numbers(packets)
   end
 
   def part_two(input) do
-    input
-    |> parse()
+    packets = hex_to_packets(input)
+    Packet.eval(packets)
   end
 end
