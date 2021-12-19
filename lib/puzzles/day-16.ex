@@ -55,7 +55,7 @@ defmodule AOC.Puzzles.DaySixteen do
     hex
     |> Integer.parse(16)
     |> elem(0)
-    |> decimal_to_binary
+    |> decimal_to_binary()
   end
 
   def parse_binary(s) do
@@ -91,7 +91,7 @@ defmodule AOC.Puzzles.DaySixteen do
     {body, remainder}
   end
 
-  def scan_binary_until("", acc, count, max_count) do
+  def scan_binary_until("", acc, _count, _max_count) do
     {acc |> Enum.reverse(), ""}
   end
 
@@ -109,18 +109,10 @@ defmodule AOC.Puzzles.DaySixteen do
     scan_binary_until(binary_s, [], 0, max_count)
   end
 
-  def scan_binary_s("", acc) do
-    acc |> Enum.reverse()
-  end
-
-  def scan_binary_s(binary_s, acc) do
-    {packet, remainder} = parse_packet(binary_s)
-
-    scan_binary_s(remainder, [packet | acc])
-  end
-
-  def scan_binary_s(binary_s) do
-    scan_binary_s(binary_s, [])
+  def scan_binary_until(binary_s) do
+    # scan_binary_until will stop as soon as the remainder is empty,
+    # so pass :infinity to continue until then
+    scan_binary_until(binary_s, :infinity)
   end
 
   def parse_operator(binary_s) do
@@ -132,7 +124,9 @@ defmodule AOC.Puzzles.DaySixteen do
         subp_len = parse_binary(subp_bit_len)
         {sub_packet_string, remainder} = String.split_at(remainder, subp_len)
 
-        {scan_binary_s(sub_packet_string), remainder}
+        {result, _empty_remainder} = scan_binary_until(sub_packet_string)
+
+        {result, remainder}
 
       "1" ->
         {num_subpackets_bits, remainder} = String.split_at(remainder, 11)
