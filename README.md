@@ -1,26 +1,33 @@
-# Advent of code Y2021 solutions
+# Advent of code Y2021-2022 solutions
 
-No fancy code loading mechanism currently, swap out the code in `lib/aoc.ex` for the current day's solution.
-
-```
-AOC.Setup.get_input(2021, 6, :simple)
-  |> AOC.Puzzles.Y2021.DaySix.part_two()
-```
-
-`AOC.Setup.get_input/1` will use your session token to fetch and then save and serve the current days input from `priv/inputs`
-
-Passing `:simple` to `AOC.Setup.get_input/2` will look for `day-$n-simple.txt` in the `priv/inputs` folder, simple meaning the examples given in the body of the task description.
-
-To reload on code changes and run the current task
+To scaffold the day's puzzle
 
 ```
-# brew install fd entr
-mix deps.get
-
-fd . -e ex './lib/' | AOC_SESSION="your_session_token" entr mix run -e AOC.current_day
+# copy the sample puzzle input to your clipboard
+pbpaste | mix run -e AOC.Codegen.main -- --year 2022 --day 10
 ```
 
-## Solutions
+To test
+```
+> AOC_SESSION="your_session_token" mix test.watch --exclude skip test/2022/day-N_test.exs
+```
+
+Remove the `@tag :skip` as progressing from the sample input to real and part 2. Real inputs will be fetched using your session token and cached in the `priv/inputs/` folder
+
+## 2022 Solutions
+
+| Day    | Part one | Part 2 |
+|--------|----------|--------|
+| **1**  | ✅        | ✅      |
+| **2**  | ✅        | ✅      |
+| **4**  | ✅        | ✅      |
+| **5**  | ✅        | ✅      |
+| **6**  | ✅        | ✅      |
+| **7**  | ✅        | ✅      |
+| **8**  | ✅        | ✅      |
+| **9**  | ✅        | ✅      |
+
+## 2021 Solutions
 
 | Day    | Part one | Part 2 |
 |--------|----------|--------|
