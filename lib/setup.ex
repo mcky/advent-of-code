@@ -20,7 +20,9 @@ defmodule AOC.Setup do
     end
   end
 
-  def input_path(year, day_n, :simple), do: Path.join(@input_dir, "#{year}/day-#{day_n}-simple.txt")
+  def input_path(year, day_n, :simple),
+    do: Path.join(@input_dir, "#{year}/day-#{day_n}-simple.txt")
+
   def input_path(year, day_n), do: Path.join(@input_dir, "#{year}/day-#{day_n}.txt")
 
   def download_input(year, day_n) do
@@ -36,8 +38,7 @@ defmodule AOC.Setup do
 
   def format_file(input) do
     input
-    # |> Enum.map(&String.trim/1)
-    |> Enum.map(&(String.replace(&1, "\n", "")))
+    |> Enum.map(&String.replace(&1, "\n", ""))
   end
 
   def get_input(year, day_n, :simple) do
