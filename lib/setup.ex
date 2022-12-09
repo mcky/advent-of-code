@@ -1,8 +1,8 @@
 defmodule AOC.Setup do
   @input_dir Path.join(:code.priv_dir(:aoc), "inputs")
 
-  def fetch_task_input(day_n) do
-    url = "https://adventofcode.com/2021/day/#{day_n}/input"
+  def fetch_task_input(year, day_n) do
+    url = "https://adventofcode.com/#{year}/day/#{day_n}/input"
 
     session_token = System.get_env("AOC_SESSION")
 
@@ -20,43 +20,46 @@ defmodule AOC.Setup do
     end
   end
 
-  def input_path(day_n, :simple), do: Path.join(@input_dir, "day-#{day_n}-simple.txt")
-  def input_path(day_n), do: Path.join(@input_dir, "day-#{day_n}.txt")
+  def input_path(year, day_n, :simple), do: Path.join(@input_dir, "#{year}/day-#{day_n}-simple.txt")
+  def input_path(year, day_n), do: Path.join(@input_dir, "#{year}/day-#{day_n}.txt")
 
-  def download_input(day_n) do
-    file_name = input_path(day_n)
+  def download_input(year, day_n) do
+    file_name = input_path(year, day_n)
 
-    with {:ok, body} <- fetch_task_input(day_n),
+    with {:ok, body} <- fetch_task_input(year, day_n),
          :ok <- File.write(file_name, body) do
       :ok
     else
-      _ -> :error
+      err -> err
     end
   end
 
   def format_file(input) do
     input
-    |> Enum.map(&String.trim/1)
+    # |> Enum.map(&String.trim/1)
+    |> Enum.map(&(String.replace(&1, "\n", "")))
   end
 
-  def get_input(day_n, :simple) do
-    file_name = input_path(day_n, :simple)
+  def get_input(year, day_n, :simple) do
+    file_name = input_path(year, day_n, :simple)
 
     File.stream!(file_name)
     |> format_file
   end
 
-  def get_input(day_n) do
-    file_name = input_path(day_n)
+  def get_input(year, day_n) do
+    file_name = input_path(year, day_n)
 
     if File.exists?(file_name) do
       File.stream!(file_name)
       |> format_file
     else
-      with :ok <- download_input(day_n) do
-        get_input(day_n)
+      with :ok <- download_input(year, day_n) do
+        get_input(year, day_n)
       else
-        _ -> raise "Download error"
+        err ->
+          IO.inspect(err)
+          raise "Download error"
       end
     end
   end
