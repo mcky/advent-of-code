@@ -83,7 +83,7 @@ defmodule AocTest.Matrix do
     assert all_coords(matrix) === [{0, 0}, {0, 1}, {1, 0}, {1, 1}]
   end
 
-  test "neighboring_coordinates" do
+  test "adjacent_coordinates" do
     matrix =
       Matrix.new([
         [1, 2, 3],
@@ -92,7 +92,7 @@ defmodule AocTest.Matrix do
       ])
 
     # gets up/down/left/right
-    assert neighboring_coordinates(matrix, {1, 1}) == [
+    assert adjacent_coordinates(matrix, {1, 1}) == [
              {0, 1},
              {2, 1},
              {1, 0},
@@ -100,11 +100,11 @@ defmodule AocTest.Matrix do
            ]
 
     #  doesn't wrap
-    assert neighboring_coordinates(matrix, {0, 0}) == [{1, 0}, {0, 1}]
-    assert neighboring_coordinates(matrix, {2, 1}) == [{1, 1}, {2, 0}, {2, 2}]
+    assert adjacent_coordinates(matrix, {0, 0}) == [{1, 0}, {0, 1}]
+    assert adjacent_coordinates(matrix, {2, 1}) == [{1, 1}, {2, 0}, {2, 2}]
   end
 
-  test "neighboring_coordinates (diag)" do
+  test "adjacent_coordinates (diag)" do
     matrix =
       Matrix.new([
         [1, 2, 3],
@@ -112,25 +112,25 @@ defmodule AocTest.Matrix do
         [7, 8, 9]
       ])
 
-    assert neighboring_coordinates(matrix, {1, 1}, :all) == [
+    assert all_adjacent_coordinates(matrix, {1, 1}) == [
              {0, 0},
-             {1, 0},
              {2, 0},
+             {0, 2},
+             {2, 2},
              {0, 1},
              {2, 1},
-             {0, 2},
-             {1, 2},
-             {2, 2}
+             {1, 0},
+             {1, 2}
            ]
 
     #  doesn't wrap
-    assert neighboring_coordinates(matrix, {0, 0}, :all) == [{1, 0}, {0, 1}, {1, 1}]
+    assert all_adjacent_coordinates(matrix, {0, 0}) == [{1, 1}, {1, 0}, {0, 1}]
 
-    assert neighboring_coordinates(matrix, {2, 1}, :all) == [
+    assert all_adjacent_coordinates(matrix, {2, 1}) == [
              {1, 0},
-             {2, 0},
-             {1, 1},
              {1, 2},
+             {1, 1},
+             {2, 0},
              {2, 2}
            ]
   end

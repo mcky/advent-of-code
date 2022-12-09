@@ -36,7 +36,7 @@ defmodule AOC.Puzzles.Y2021.DayNine do
   end
 
   def grow_region(matrix, [start_point | rest], seen) do
-    neighbors = Matrix.neighboring_coordinates(matrix, start_point)
+    neighbors = Matrix.adjacent_coordinates(matrix, start_point)
 
     curr_v = Matrix.at(matrix, start_point)
 

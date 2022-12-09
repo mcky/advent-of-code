@@ -39,7 +39,7 @@ defmodule AOC.Puzzles.Y2021.DayEleven do
       # their score to a new matrix
       adjacent_updated =
         matrix
-        |> Matrix.neighboring_coordinates(point, :all)
+        |> Matrix.all_adjacent_coordinates(point)
         |> Enum.reduce(with_flash_marked, fn adj, acc ->
           Map.update!(
             acc,

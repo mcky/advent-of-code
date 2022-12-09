@@ -10,17 +10,8 @@ defmodule AOC.Puzzles.Y2022.Day9 do
     List.duplicate(dir, n)
   end
 
-  def adjacent?({x, y}, b) do
-    [
-      {x - 1, y - 1},
-      {x, y - 1},
-      {x + 1, y - 1},
-      {x - 1, y},
-      {x + 1, y},
-      {x - 1, y + 1},
-      {x, y + 1},
-      {x + 1, y + 1}
-    ]
+  def adjacent?(point, b) do
+    Matrix.all_adjacent_coordinates(point)
     |> Enum.member?(b)
   end
 
@@ -44,17 +35,8 @@ defmodule AOC.Puzzles.Y2022.Day9 do
     end
   end
 
-  def diag_coords({x, y}) do
-    [
-      {x - 1, y - 1},
-      {x + 1, y - 1},
-      {x - 1, y + 1},
-      {x + 1, y + 1}
-    ]
-  end
-
   def move_tail_diagonal(head, tail) do
-    diag_coords(tail)
+    Matrix.diagonal_coordinates(tail)
     |> Enum.find(fn new_possibility ->
       adjacent?(head, new_possibility)
     end)

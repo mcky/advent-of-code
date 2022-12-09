@@ -46,7 +46,7 @@ defmodule AOC.Puzzles.Y2021.DayFifteen do
     visited_coords = MapSet.put(visited_coords, curr_point)
 
     neighbors =
-      Matrix.neighboring_coordinates(matrix, curr_point)
+      Matrix.adjacent_coordinates(matrix, curr_point)
       |> Enum.map(fn coords -> {coords, Matrix.at(matrix, coords)} end)
 
     {queue, visited_coords} =

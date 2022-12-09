@@ -43,33 +43,41 @@ defmodule Matrix do
     {w, h}
   end
 
-  def neighboring_coordinates(%Matrix{items: items}, _points = {x, y}, :all) do
+  # { x - 1, y - 1}, { x, y - 1}, { x + 1, y - 1},
+  # { x - 1, y    },    x, y      { x + 1, y    },
+  # { x - 1, y + 1}, { x, y + 1}, { x + 1, y + 1},
+  def diagonal_coordinates(point = {x, y}) do
     [
-      # {x-1, y-1},{x, y-1},{x+1, y-1},
-      # {x-1, y  },  x,y    {x+1, y  },
-      # {x-1, y+1},{x, y+1},{x+1, y+1},
       {x - 1, y - 1},
-      {x, y - 1},
       {x + 1, y - 1},
-      {x - 1, y},
-      {x + 1, y},
       {x - 1, y + 1},
-      {x, y + 1},
       {x + 1, y + 1}
     ]
+  end
+
+  def all_adjacent_coordinates(point = {x, y}) do
+    diagonal_coordinates(point) ++ adjacent_coordinates(point)
+  end
+
+  def all_adjacent_coordinates(%Matrix{items: items}, coord) do
+    all_adjacent_coordinates(coord)
     |> Enum.filter(&Map.has_key?(items, &1))
   end
 
-  def neighboring_coordinates(%Matrix{items: items}, _points = {x, y}) do
+  def adjacent_coordinates({x, y}) do
     #         {x, y-1}
     # {x-1, y}  x,y  {x+1, y},
     #         {x, y+1}
     [{x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}]
+  end
+
+  def adjacent_coordinates(%Matrix{items: items}, coord) do
+    adjacent_coordinates(coord)
     |> Enum.filter(&Map.has_key?(items, &1))
   end
 
   def neighboring_values(m = %Matrix{}, points = {_x, _y}) do
-    neighboring_coordinates(m, points)
+    adjacent_coordinates(m, points)
     |> Enum.map(&at(m, &1))
   end
 
