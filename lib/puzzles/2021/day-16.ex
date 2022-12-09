@@ -36,7 +36,7 @@ defmodule Packet do
   end
 end
 
-defmodule AOC.Puzzles.DaySixteen do
+defmodule AOC.Puzzles.Y2021.DaySixteen do
   def parse(input) do
     input
     |> Enum.at(0)

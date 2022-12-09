@@ -1,4 +1,4 @@
-defmodule AOC.Puzzles.DayFive do
+defmodule AOC.Puzzles.Y2021.DayFive do
   def parse_line(line) do
     [from, to] =
       line

@@ -1,15 +1,15 @@
-defmodule AocTest.DayNine do
+defmodule AocTest.Y2021.DayNine do
   use ExUnit.Case
-  doctest AOC.Puzzles.DayNine
-  import AOC.Puzzles.DayNine
+  doctest AOC.Puzzles.Y2021.DayNine
+  import AOC.Puzzles.Y2021.DayNine
 
   test "part 1 (sample)" do
-    input = AOC.Setup.get_input(9, :simple)
+    input = AOC.Setup.get_input(2021, 9, :simple)
     assert part_one(input) == 15
   end
 
   test "part 2 (sample)" do
-    input = AOC.Setup.get_input(9, :simple)
+    input = AOC.Setup.get_input(2021, 9, :simple)
     assert part_two(input) == 1134
   end
 

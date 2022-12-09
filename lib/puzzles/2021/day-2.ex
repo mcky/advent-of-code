@@ -1,4 +1,4 @@
-defmodule AOC.Puzzles.DayTwo do
+defmodule AOC.Puzzles.Y2021.DayTwo do
   def parse_line(line) do
     [dir, n] = AOC.Helpers.ints_from_string(line)
     {dir, n}

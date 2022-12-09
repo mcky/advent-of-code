@@ -1,4 +1,4 @@
-defmodule AOC.Puzzles.DayFifteen do
+defmodule AOC.Puzzles.Y2021.DayFifteen do
   def parse(input) do
     input
     |> Enum.map(&AOC.Helpers.ints_from_string(&1, ""))

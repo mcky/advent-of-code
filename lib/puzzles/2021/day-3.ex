@@ -1,4 +1,4 @@
-defmodule AOC.Puzzles.DayThree do
+defmodule AOC.Puzzles.Y2021.DayThree do
   defp parse_line(line) do
     line
     |> String.trim()

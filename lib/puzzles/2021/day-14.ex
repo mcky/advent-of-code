@@ -1,4 +1,4 @@
-defmodule AOC.Puzzles.DayFourteen do
+defmodule AOC.Puzzles.Y2021.DayFourteen do
   def to_pair_freqs(string) do
     string
     |> String.graphemes()

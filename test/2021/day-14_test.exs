@@ -1,26 +1,27 @@
-defmodule AocTest.DayFourteen do
+defmodule AocTest.Y2021.DayFourteen do
   use ExUnit.Case
-  doctest AOC.Puzzles.DayFourteen
-  import AOC.Puzzles.DayFourteen
+  doctest AOC.Puzzles.Y2021.DayFourteen
+  import AOC.Puzzles.Y2021.DayFourteen
 
   test "part 1" do
-    input = AOC.Setup.get_input(14, :simple)
+    input = AOC.Setup.get_input(2021, 14, :simple)
     assert part_one(input) == 1588
 
-    input = AOC.Setup.get_input(14)
+    input = AOC.Setup.get_input(2021, 14)
     assert part_one(input) == 2851
   end
 
+  @tag :skip
   test "part 2" do
-    input = AOC.Setup.get_input(14, :simple)
+    input = AOC.Setup.get_input(2021, 14, :simple)
     assert part_two(input) == 2_188_189_693_529
 
-    input = AOC.Setup.get_input(14)
+    input = AOC.Setup.get_input(2021, 14)
     assert part_two(input) == 10_002_813_279_337
   end
 
   test "do_step" do
-    input = AOC.Setup.get_input(14, :simple)
+    input = AOC.Setup.get_input(2021, 14, :simple)
     {_, rules} = parse(input)
 
     assert do_step(to_pair_freqs("NNCB"), rules) ==
@@ -48,7 +49,7 @@ defmodule AocTest.DayFourteen do
   end
 
   test "parse" do
-    input = AOC.Setup.get_input(14, :simple)
+    input = AOC.Setup.get_input(2021, 14, :simple)
 
     assert parse(input) == {
              %{"CB" => 1, "NC" => 1, "NN" => 1},

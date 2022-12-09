@@ -1,4 +1,4 @@
-defmodule AOC.Puzzles.DayTen do
+defmodule AOC.Puzzles.Y2021.DayTen do
   def parse_line(line), do: String.graphemes(line)
 
   def parse(input) do

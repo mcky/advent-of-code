@@ -1,4 +1,4 @@
-defmodule AOC.Puzzles.DayEleven do
+defmodule AOC.Puzzles.Y2021.DayEleven do
   def parse(input) do
     input
     |> Enum.map(fn line ->

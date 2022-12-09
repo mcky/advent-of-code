@@ -1,4 +1,4 @@
-defmodule AOC.Puzzles.DayThirteen do
+defmodule AOC.Puzzles.Y2021.DayThirteen do
   def parse(input) do
     {coordinates, folds} =
       input

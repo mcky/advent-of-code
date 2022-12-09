@@ -1,4 +1,4 @@
-defmodule AOC.Puzzles.DayOne do
+defmodule AOC.Puzzles.Y2021.DayOne do
   def parse_line(line) do
     line |> AOC.Helpers.ints_from_string() |> Enum.at(0)
   end

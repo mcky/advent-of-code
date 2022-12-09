@@ -1,4 +1,4 @@
-defmodule AOC.Puzzles.DayFour do
+defmodule AOC.Puzzles.Y2021.DayFour do
   def make_unmarked_board(board) do
     board
     |> Enum.map(fn row ->

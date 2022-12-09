@@ -1,4 +1,4 @@
-defmodule AOC.Puzzles.DaySix do
+defmodule AOC.Puzzles.Y2021.DaySix do
   def parse(input) do
     input
     |> Enum.at(0)

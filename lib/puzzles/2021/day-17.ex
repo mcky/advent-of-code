@@ -1,4 +1,4 @@
-defmodule AOC.Puzzles.DaySeventeen do
+defmodule AOC.Puzzles.Y2021.DaySeventeen do
   def parse(input) do
     s = Enum.at(input, 0)
     [x, y] = Regex.scan(~r/(x|y)=(-?\d+)..(-?\d+)/, s, capture: :all_but_first)
