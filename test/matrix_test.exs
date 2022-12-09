@@ -155,4 +155,14 @@ defmodule AocTest.Matrix do
     mapped = map(matrix, fn {p, v} -> {p, v + 1} end)
     assert mapped == %Matrix{items: %{{0, 0} => 2, {1, 0} => 3, {2, 0} => 4}}
   end
+
+  test "values" do
+    matrix =
+      Matrix.new([
+        [1, 2, 3],
+        [4, 5, 6]
+      ])
+
+    assert values(matrix) == [1, 4, 2, 5, 3, 6]
+  end
 end

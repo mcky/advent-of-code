@@ -110,4 +110,8 @@ defmodule Matrix do
     |> Map.new()
     |> Matrix.new()
   end
+
+  def values(%Matrix{items: items}) do
+    Enum.map(items, fn {_coord, value} -> value end)
+  end
 end

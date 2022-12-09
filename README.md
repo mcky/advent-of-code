@@ -1,10 +1,10 @@
-# Advent of code 2021 solutions
+# Advent of code Y2021 solutions
 
 No fancy code loading mechanism currently, swap out the code in `lib/aoc.ex` for the current day's solution.
 
 ```
-AOC.Setup.get_input(6, :simple)
-  |> AOC.Puzzles.DaySix.part_two()
+AOC.Setup.get_input(2021, 6, :simple)
+  |> AOC.Puzzles.Y2021.DaySix.part_two()
 ```
 
 `AOC.Setup.get_input/1` will use your session token to fetch and then save and serve the current days input from `priv/inputs`
