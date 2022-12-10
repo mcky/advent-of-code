@@ -26,6 +26,7 @@ Remove the `@tag :skip` as progressing from the sample input to real and part 2.
 | **7**  | ✅        | ✅      |
 | **8**  | ✅        | ✅      |
 | **9**  | ✅        | ✅      |
+| **10** | ✅        | ✅      |
 
 ## 2021 Solutions
 
