@@ -119,6 +119,16 @@ defmodule Matrix do
     |> Matrix.new()
   end
 
+  def find_coordinate(%Matrix{items: items}, fun) do
+    Enum.find_value(items, fn {coord, value} ->
+      if fun.({coord, value}), do: coord, else: nil
+    end)
+  end
+
+  def items(%Matrix{items: items}) do
+    items
+  end
+
   def values(%Matrix{items: items}) do
     Enum.map(items, fn {_coord, value} -> value end)
   end

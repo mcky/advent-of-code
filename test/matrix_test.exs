@@ -156,6 +156,20 @@ defmodule AocTest.Matrix do
     assert mapped == %Matrix{items: %{{0, 0} => 2, {1, 0} => 3, {2, 0} => 4}}
   end
 
+  test "find_coordinate" do
+    matrix =
+      Matrix.new([
+        [1, 2, 3],
+        [4, 5, 6]
+      ])
+
+    found_coord = find_coordinate(matrix, fn {_c, value} -> value === 5 end)
+    assert found_coord == {1, 1}
+
+    found_coord = find_coordinate(matrix, fn {_c, value} -> value === "doesn't exist" end)
+    assert found_coord == nil
+  end
+
   test "values" do
     matrix =
       Matrix.new([
