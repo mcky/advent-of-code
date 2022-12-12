@@ -76,7 +76,7 @@ defmodule Matrix do
     |> Enum.filter(&Map.has_key?(items, &1))
   end
 
-  def neighboring_values(m = %Matrix{}, points = {_x, _y}) do
+  def adjacent_values(m = %Matrix{}, points = {_x, _y}) do
     adjacent_coordinates(m, points)
     |> Enum.map(&at(m, &1))
   end

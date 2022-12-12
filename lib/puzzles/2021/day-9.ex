@@ -8,7 +8,7 @@ defmodule AOC.Puzzles.Y2021.DayNine do
   def lower_than_neighbors?(matrix, coords) do
     value = Matrix.at(matrix, coords)
 
-    Matrix.neighboring_values(matrix, coords)
+    Matrix.adjacent_values(matrix, coords)
     |> Enum.all?(fn n -> value < n end)
   end
 
