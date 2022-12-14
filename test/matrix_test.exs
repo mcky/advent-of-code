@@ -4,6 +4,11 @@ defmodule AocTest.Matrix do
   import Integer
   import Matrix
 
+  @simple_2x2 [
+    [1, 2],
+    [3, 4]
+  ]
+
   @simple_3x3 [
     [1, 2, 3],
     [4, 5, 6],
@@ -20,11 +25,7 @@ defmodule AocTest.Matrix do
       }
     }
 
-    input_2x2 = [
-      [1, 2],
-      [3, 4]
-    ]
-
+    input_2x2 = @simple_2x2
     expected_2x2 = %Matrix{
       items: %{
         {0, 0} => 1,
@@ -55,12 +56,7 @@ defmodule AocTest.Matrix do
   end
 
   test "at" do
-    matrix =
-      Matrix.new([
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
-      ])
+    matrix = new(@simple_3x3)
 
     assert at(matrix, {0, 0}) == {:ok, 1}
     assert at(matrix, {2, 2}) == {:ok, 9}
@@ -70,12 +66,7 @@ defmodule AocTest.Matrix do
   end
 
   test "at!" do
-    matrix =
-      Matrix.new([
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
-      ])
+    matrix = new(@simple_3x3)
 
     assert at!(matrix, {0, 0}) == 1
     assert at!(matrix, {2, 2}) == 9
@@ -86,11 +77,7 @@ defmodule AocTest.Matrix do
   end
 
   test "put" do
-    matrix =
-      Matrix.new([
-        [1, 2],
-        [3, 4]
-      ])
+    matrix = new(@simple_2x2)
 
     assert put(matrix, {0, 0}, "X") == %Matrix{
              items: %{
@@ -103,33 +90,19 @@ defmodule AocTest.Matrix do
   end
 
   test "dimensions" do
-    matrix =
-      Matrix.new([
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
-      ])
+    matrix = new(@simple_3x3)
 
     assert dimensions(matrix) === {2, 2}
   end
 
   test "all_coords" do
-    matrix =
-      Matrix.new([
-        [1, 2],
-        [3, 4]
-      ])
+    matrix = new(@simple_2x2)
 
     assert all_coords(matrix) === [{0, 0}, {0, 1}, {1, 0}, {1, 1}]
   end
 
   test "adjacent_coordinates" do
-    matrix =
-      Matrix.new([
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
-      ])
+    matrix = new(@simple_3x3)
 
     # gets up/down/left/right
     assert adjacent_coordinates(matrix, {1, 1}) == [
@@ -145,12 +118,7 @@ defmodule AocTest.Matrix do
   end
 
   test "adjacent_coordinates (diag)" do
-    matrix =
-      Matrix.new([
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
-      ])
+    matrix = new(@simple_3x3)
 
     assert all_adjacent_coordinates(matrix, {1, 1}) == [
              {0, 0},
@@ -200,7 +168,7 @@ defmodule AocTest.Matrix do
 
   test "map" do
     matrix =
-      Matrix.new([
+      new([
         [1, 2, 3]
       ])
 
@@ -209,11 +177,7 @@ defmodule AocTest.Matrix do
   end
 
   test "find_coordinate" do
-    matrix =
-      Matrix.new([
-        [1, 2, 3],
-        [4, 5, 6]
-      ])
+    matrix = new(@simple_3x3)
 
     found_coord = find_coordinate(matrix, fn {_c, value} -> value === 5 end)
     assert found_coord == {1, 1}
@@ -223,12 +187,7 @@ defmodule AocTest.Matrix do
   end
 
   test "values" do
-    matrix =
-      Matrix.new([
-        [1, 2, 3],
-        [4, 5, 6]
-      ])
-
-    assert values(matrix) == [1, 4, 2, 5, 3, 6]
+    matrix = new(@simple_3x3)
+    assert values(matrix) == [1, 4, 7, 2, 5, 8, 3, 6, 9]
   end
 end
