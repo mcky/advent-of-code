@@ -34,6 +34,11 @@ defmodule Matrix do
     Map.fetch!(items, coords)
   end
 
+  def put(%Matrix{items: items}, coords = {_x, _y}, value) do
+    Map.put(items, coords, value)
+    |> Matrix.new()
+  end
+
   def all_coords(%Matrix{items: items}) do
     Map.keys(items)
   end

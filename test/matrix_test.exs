@@ -78,6 +78,23 @@ defmodule AocTest.Matrix do
     end
   end
 
+  test "put" do
+    matrix =
+      Matrix.new([
+        [1, 2],
+        [3, 4]
+      ])
+
+    assert put(matrix, {0, 0}, "X") == %Matrix{
+             items: %{
+               {0, 0} => "X",
+               {1, 0} => 2,
+               {0, 1} => 3,
+               {1, 1} => 4
+             }
+           }
+  end
+
   test "dimensions" do
     matrix =
       Matrix.new([
