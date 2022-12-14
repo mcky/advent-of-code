@@ -58,33 +58,29 @@ defmodule AOC.Puzzles.Y2022.Day14 do
     end)
   end
 
+  def empty?(:error), do: true
+  def empty?(_), do: false
+
   def drop_grain_of_sand(matrix, dimensions = {max_x, max_y}, sand_coord = {x, y}) do
+    down = {x, y + 1}
+    left = {x - 1, y + 1}
+    right = {x + 1, y + 1}
+
     cond do
       x < 0 or y < 0 or x > max_x or y > max_y ->
         nil
 
-      :error == Matrix.at(matrix, {x, y + 1}) ->
-        drop_grain_of_sand(matrix, dimensions, {x, y + 1})
+      empty?(Matrix.at(matrix, down)) ->
+        drop_grain_of_sand(matrix, dimensions, down)
 
-      {:ok, :sand} == Matrix.at(matrix, {x, y + 1}) ->
+      {:ok, :sand} == Matrix.at(matrix, down) or
+          {:ok, :rock} == Matrix.at(matrix, down) ->
         cond do
-          :error == Matrix.at(matrix, {x - 1, y + 1}) ->
-            drop_grain_of_sand(matrix, dimensions, {x - 1, y + 1})
+          empty?(Matrix.at(matrix, left)) ->
+            drop_grain_of_sand(matrix, dimensions, left)
 
-          :error == Matrix.at(matrix, {x + 1, y + 1}) ->
-            drop_grain_of_sand(matrix, dimensions, {x + 1, y + 1})
-
-          true ->
-            {Matrix.put(matrix, sand_coord, :sand), sand_coord}
-        end
-
-      {:ok, :rock} = Matrix.at(matrix, {x, y + 1}) ->
-        cond do
-          :error == Matrix.at(matrix, {x - 1, y + 1}) ->
-            drop_grain_of_sand(matrix, dimensions, {x - 1, y + 1})
-
-          :error == Matrix.at(matrix, {x + 1, y + 1}) ->
-            drop_grain_of_sand(matrix, dimensions, {x + 1, y + 1})
+          empty?(Matrix.at(matrix, right)) ->
+            drop_grain_of_sand(matrix, dimensions, right)
 
           true ->
             {Matrix.put(matrix, sand_coord, :sand), sand_coord}
