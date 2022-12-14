@@ -6,7 +6,7 @@ defmodule AOC.Puzzles.Y2021.DayNine do
   end
 
   def lower_than_neighbors?(matrix, coords) do
-    value = Matrix.at(matrix, coords)
+    value = Matrix.at!(matrix, coords)
 
     Matrix.adjacent_values(matrix, coords)
     |> Enum.all?(fn n -> value < n end)
@@ -21,7 +21,7 @@ defmodule AOC.Puzzles.Y2021.DayNine do
   def risk_level(matrix, lowest) do
     lowest
     |> Enum.map(fn low_point ->
-      Matrix.at(matrix, low_point) + 1
+      Matrix.at!(matrix, low_point) + 1
     end)
     |> Enum.sum()
   end
@@ -38,13 +38,13 @@ defmodule AOC.Puzzles.Y2021.DayNine do
   def grow_region(matrix, [start_point | rest], seen) do
     neighbors = Matrix.adjacent_coordinates(matrix, start_point)
 
-    curr_v = Matrix.at(matrix, start_point)
+    curr_v = Matrix.at!(matrix, start_point)
 
     valid_n =
       neighbors
       |> Enum.reject(&MapSet.member?(seen, &1))
       |> Enum.reject(fn point ->
-        v = Matrix.at(matrix, point)
+        v = Matrix.at!(matrix, point)
         v > curr_v and v >= 9
       end)
 

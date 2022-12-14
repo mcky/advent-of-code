@@ -77,13 +77,13 @@ defmodule AOC.Puzzles.Y2022.Day12 do
   def explore(matrix, [current | rest], visited, visited_coords, end_coords) do
     {curr_point, curr_val, _curr_via} = current
 
-    val_at_point = Matrix.at(matrix, curr_point)
+    val_at_point = Matrix.at!(matrix, curr_point)
 
     visited_coords = MapSet.put(visited_coords, curr_point)
 
     neighbors =
       Matrix.adjacent_coordinates(matrix, curr_point)
-      |> Enum.map(fn coords -> {coords, Matrix.at(matrix, coords)} end)
+      |> Enum.map(fn coords -> {coords, Matrix.at!(matrix, coords)} end)
       |> Enum.filter(fn {_coord, value} -> value <= val_at_point + 1 end)
 
     {queue, visited_coords} =

@@ -27,7 +27,7 @@ defmodule AOC.Puzzles.Y2021.DayEleven do
   def trigger_neighbor_flashes([], matrix), do: matrix
 
   def trigger_neighbor_flashes([point | rest], matrix) do
-    {value, did_flash} = Matrix.at(matrix, point)
+    {value, did_flash} = Matrix.at!(matrix, point)
 
     if value > 9 and !did_flash do
       # Mark the current coordinates as having flashed

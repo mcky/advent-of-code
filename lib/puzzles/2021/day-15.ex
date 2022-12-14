@@ -47,7 +47,7 @@ defmodule AOC.Puzzles.Y2021.DayFifteen do
 
     neighbors =
       Matrix.adjacent_coordinates(matrix, curr_point)
-      |> Enum.map(fn coords -> {coords, Matrix.at(matrix, coords)} end)
+      |> Enum.map(fn coords -> {coords, Matrix.at!(matrix, coords)} end)
 
     {queue, visited_coords} =
       for {point, v} <- neighbors,
@@ -80,7 +80,7 @@ defmodule AOC.Puzzles.Y2021.DayFifteen do
     [_first | rest] = chain |> Enum.map(&elem(&1, 0))
 
     rest
-    |> Enum.map(fn coord -> Matrix.at(matrix, coord) end)
+    |> Enum.map(fn coord -> Matrix.at!(matrix, coord) end)
     |> Enum.sum()
   end
 

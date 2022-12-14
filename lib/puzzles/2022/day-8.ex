@@ -45,12 +45,12 @@ defmodule AOC.Puzzles.Y2022.Day8 do
           |> Enum.map(fn
             {coords, dir} when dir in [:left, :right] ->
               coords
-              |> Enum.map(fn xc -> Matrix.at(tree_matrix, {xc, y}) end)
+              |> Enum.map(fn xc -> Matrix.at!(tree_matrix, {xc, y}) end)
               |> highest_in_direction(height)
 
             {coords, dir} when dir in [:up, :down] ->
               coords
-              |> Enum.map(fn yc -> Matrix.at(tree_matrix, {x, yc}) end)
+              |> Enum.map(fn yc -> Matrix.at!(tree_matrix, {x, yc}) end)
               |> highest_in_direction(height)
           end)
           |> Enum.any?()
@@ -113,12 +113,12 @@ defmodule AOC.Puzzles.Y2022.Day8 do
           |> Enum.map(fn
             {coords, dir} when dir in [:left, :right] ->
               coords
-              |> Enum.map(fn xc -> Matrix.at(tree_matrix, {xc, y}) end)
+              |> Enum.map(fn xc -> Matrix.at!(tree_matrix, {xc, y}) end)
               |> take_until_blocked(height)
 
             {coords, dir} when dir in [:up, :down] ->
               coords
-              |> Enum.map(fn yc -> Matrix.at(tree_matrix, {x, yc}) end)
+              |> Enum.map(fn yc -> Matrix.at!(tree_matrix, {x, yc}) end)
               |> take_until_blocked(height)
           end)
           |> score_views()

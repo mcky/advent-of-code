@@ -55,11 +55,27 @@ defmodule AocTest.Matrix do
         [7, 8, 9]
       ])
 
-    assert at(matrix, {0, 0}) == 1
-    assert at(matrix, {2, 2}) == 9
-    # assert at(matrix, {1, 5}) == :error
-    # assert at(matrix, {5, 1}) == :error
-    # assert at(matrix, {5, 5}) == :error
+    assert at(matrix, {0, 0}) == {:ok, 1}
+    assert at(matrix, {2, 2}) == {:ok, 9}
+    assert at(matrix, {1, 5}) == :error
+    assert at(matrix, {5, 1}) == :error
+    assert at(matrix, {5, 5}) == :error
+  end
+
+  test "at!" do
+    matrix =
+      Matrix.new([
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]
+      ])
+
+    assert at!(matrix, {0, 0}) == 1
+    assert at!(matrix, {2, 2}) == 9
+
+    assert_raise KeyError, fn ->
+      at!(matrix, {1, 5})
+    end
   end
 
   test "dimensions" do

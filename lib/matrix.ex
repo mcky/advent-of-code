@@ -26,8 +26,12 @@ defmodule Matrix do
     }
   end
 
-  def at(%Matrix{items: items}, points = {_x, _y}) do
-    Map.fetch!(items, points)
+  def at(%Matrix{items: items}, coords = {_x, _y}) do
+    Map.fetch(items, coords)
+  end
+
+  def at!(%Matrix{items: items}, coords = {_x, _y}) do
+    Map.fetch!(items, coords)
   end
 
   def all_coords(%Matrix{items: items}) do
@@ -78,7 +82,7 @@ defmodule Matrix do
 
   def adjacent_values(m = %Matrix{}, points = {_x, _y}) do
     adjacent_coordinates(m, points)
-    |> Enum.map(&at(m, &1))
+    |> Enum.map(&at!(m, &1))
   end
 
   def get_repr(matrix = %Matrix{}, coords \\ []) do
