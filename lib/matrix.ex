@@ -90,18 +90,16 @@ defmodule Matrix do
     |> Enum.map(&at!(m, &1))
   end
 
-  def get_repr(matrix = %Matrix{}, coords \\ []) do
+  def get_repr(matrix = %Matrix{}, value_printer) when is_function(value_printer) do
     {w, h} = dimensions(matrix)
 
     for y <- 0..h do
       for x <- 0..w do
-        curr_coord = {x, y}
-        v = at(matrix, {x, y})
+        coord = {x, y}
 
-        if curr_coord in coords do
-          "[#{v}]"
-        else
-          " #{v} "
+        case at(matrix, coord) do
+          {:ok, v} -> value_printer.({v, coord})
+          :error -> value_printer.({:empty, coord})
         end
       end
       |> Enum.join("")
@@ -109,8 +107,26 @@ defmodule Matrix do
     |> Enum.join("\n")
   end
 
-  def print(matrix = %Matrix{}, coords \\ []) do
-    IO.puts(get_repr(matrix, coords))
+  def get_repr(matrix = %Matrix{}, coords) when is_list(coords) do
+    get_repr(matrix, fn
+      {v, coord} ->
+        if coord in coords do
+          "[#{v}]"
+        else
+          " #{v} "
+        end
+
+      _ ->
+        " . "
+    end)
+  end
+
+  def get_repr(matrix = %Matrix{}) do
+    get_repr(matrix, [])
+  end
+
+  def print(matrix = %Matrix{}, coords_or_printer_fn \\ []) do
+    IO.puts(get_repr(matrix, coords_or_printer_fn))
     matrix
   end
 

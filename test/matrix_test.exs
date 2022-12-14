@@ -1,7 +1,14 @@
 defmodule AocTest.Matrix do
   use ExUnit.Case
   doctest Matrix
+  import Integer
   import Matrix
+
+  @simple_3x3 [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+  ]
 
   test "new (from list)" do
     input_1x2 = [[1, 2]]
@@ -168,15 +175,27 @@ defmodule AocTest.Matrix do
            ]
   end
 
-  test "get_repr" do
-    matrix =
-      Matrix.new([
-        [1, 2, 3],
-        [4, 5, 6]
-      ])
+  test "get_repr(matrix, value_printer)" do
+    matrix = new(@simple_3x3)
 
-    assert get_repr(matrix) == " 1  2  3 \n 4  5  6 "
-    assert get_repr(matrix, [{1, 0}]) == " 1 [2] 3 \n 4  5  6 "
+    printer = fn
+      {i, _} when Integer.is_odd(i) -> " X "
+      {_i, _} -> " O "
+    end
+
+    assert get_repr(matrix, printer) == " X  O  X \n O  X  O \n X  O  X "
+  end
+
+  test "get_repr(matrix)" do
+    matrix = new(@simple_3x3)
+
+    assert get_repr(matrix) == " 1  2  3 \n 4  5  6 \n 7  8  9 "
+  end
+
+  test "get_repr(matrix, coords)" do
+    matrix = new(@simple_3x3)
+
+    assert get_repr(matrix, [{1, 0}, {2, 2}]) == " 1 [2] 3 \n 4  5  6 \n 7  8 [9]"
   end
 
   test "map" do
