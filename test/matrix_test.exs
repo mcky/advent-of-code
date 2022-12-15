@@ -160,6 +160,16 @@ defmodule AocTest.Matrix do
     assert get_repr(matrix) == " 1  2  3 \n 4  5  6 \n 7  8  9 "
   end
 
+  test "get_repr(matrix) prints sparse matrixes" do
+    matrix =
+      new(%{
+        {1, 1} => "#",
+        {2, 2} => "#"
+      })
+
+    assert get_repr(matrix) == " #  . \n .  # "
+  end
+
   test "get_repr(matrix, coords)" do
     matrix = new(@simple_3x3)
 

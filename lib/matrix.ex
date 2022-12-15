@@ -109,6 +109,9 @@ defmodule Matrix do
 
   def get_repr(matrix = %Matrix{}, coords) when is_list(coords) do
     get_repr(matrix, fn
+      {:empty, _coord} ->
+        " . "
+
       {v, coord} ->
         if coord in coords do
           "[#{v}]"
