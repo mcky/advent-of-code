@@ -52,6 +52,29 @@ defmodule Matrix do
     {w, h}
   end
 
+  def minmax(coords) do
+    {x_min, _} = Enum.min_by(coords, fn {x, _y} -> x end)
+    {x_max, _} = Enum.max_by(coords, fn {x, _y} -> x end)
+
+    {_, y_min} = Enum.min_by(coords, fn {_x, y} -> y end)
+    {_, y_max} = Enum.max_by(coords, fn {_x, y} -> y end)
+
+    {{x_min, y_min}, {x_max, y_max}}
+  end
+
+  def dimensions2(m = %Matrix{}) do
+    keys = all_coords(m)
+
+    # {x_min, _} = Enum.min_by(keys, fn {x, _y} -> x end)
+    # {x_max, _} = Enum.max_by(keys, fn {x, _y} -> x end)
+
+    # {_, y_min} = Enum.min_by(keys, fn {_x, y} -> y end)
+    # {_, y_max} = Enum.max_by(keys, fn {_x, y} -> y end)
+
+    # {{x_min, y_min}, {x_max, y_max}}
+    minmax(keys)
+  end
+
   # { x - 1, y - 1}, { x, y - 1}, { x + 1, y - 1},
   # { x - 1, y    },    x, y      { x + 1, y    },
   # { x - 1, y + 1}, { x, y + 1}, { x + 1, y + 1},
@@ -90,11 +113,29 @@ defmodule Matrix do
     |> Enum.map(&at!(m, &1))
   end
 
-  def get_repr(matrix = %Matrix{}, value_printer) when is_function(value_printer) do
-    {w, h} = dimensions(matrix)
+  def has_key(%Matrix{items: items}, key) do
+    Map.has_key?(items, key)
+  end
 
-    for y <- 0..h do
-      for x <- 0..w do
+  def fill(matrix = %Matrix{}, fill_with) do
+    {{x_min, y_min}, {x_max, y_max}} = dimensions2(matrix)
+
+    for x <- x_min..x_max, y <- y_min..y_max, reduce: matrix do
+      m ->
+        if has_key(m, {x, y}) do
+          m
+        else
+          Matrix.put(m, {x, y}, fill_with)
+        end
+    end
+  end
+
+  def get_repr(matrix = %Matrix{}, value_printer) when is_function(value_printer) do
+    # {w, h} = dimensions(matrix)
+    {{w0, h0}, {w, h}} = dimensions2(matrix)
+
+    for y <- h0..h do
+      for x <- w0..w do
         coord = {x, y}
 
         case at(matrix, coord) do
@@ -133,6 +174,15 @@ defmodule Matrix do
     matrix
   end
 
+  def print_with_labels(matrix = %Matrix{}, coords_or_printer_fn \\ []) do
+    x =
+      get_repr(matrix, coords_or_printer_fn)
+      |> IO.inspect(label: "x")
+
+    IO.puts(x)
+    matrix
+  end
+
   def merge(%Matrix{items: items_a}, %Matrix{items: items_b}) do
     Map.merge(items_a, items_b) |> Matrix.new()
   end
@@ -143,6 +193,12 @@ defmodule Matrix do
 
   def map(%Matrix{items: items}, fun) do
     Enum.map(items, fun)
+    |> Map.new()
+    |> Matrix.new()
+  end
+
+  def filter(%Matrix{items: items}, fun) do
+    Enum.filter(items, fun)
     |> Map.new()
     |> Matrix.new()
   end
@@ -159,5 +215,12 @@ defmodule Matrix do
 
   def values(%Matrix{items: items}) do
     Enum.map(items, fn {_coord, value} -> value end)
+  end
+
+  def from_printed(string, split_on \\ " ") do
+    string
+    |> String.split("\n", trim: true)
+    |> Enum.map(&String.split(&1, split_on, trim: true))
+    |> new()
   end
 end

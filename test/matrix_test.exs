@@ -26,6 +26,7 @@ defmodule AocTest.Matrix do
     }
 
     input_2x2 = @simple_2x2
+
     expected_2x2 = %Matrix{
       items: %{
         {0, 0} => 1,
@@ -53,6 +54,25 @@ defmodule AocTest.Matrix do
     }
 
     assert new(input) == expected
+  end
+
+  test "from_printed" do
+    # Doesn't handle sparse matrixes
+    printed = """
+    A B C
+    D E F
+    """
+
+    assert from_printed(printed) == %Matrix{
+             items: %{
+               {0, 0} => "A",
+               {1, 0} => "B",
+               {2, 0} => "C",
+               {0, 1} => "D",
+               {1, 1} => "E",
+               {2, 1} => "F"
+             }
+           }
   end
 
   test "at" do
@@ -143,10 +163,44 @@ defmodule AocTest.Matrix do
            ]
   end
 
+  test "fill" do
+    # .  O  .
+    # O  O  O
+    # .  O  .
+    matrix =
+      new(%{
+        {1, 0} => "O",
+        {0, 1} => "O",
+        {1, 1} => "O",
+        {2, 1} => "O",
+        {1, 2} => "O"
+      })
+
+    # X  O  X
+    # O  O  O
+    # X  O  X
+    filled = fill(matrix, "X")
+
+    assert filled == %Matrix{
+             items: %{
+               {0, 0} => "X",
+               {1, 0} => "O",
+               {2, 0} => "X",
+               {0, 1} => "O",
+               {1, 1} => "O",
+               {2, 1} => "O",
+               {0, 2} => "X",
+               {1, 2} => "O",
+               {2, 2} => "X"
+             }
+           }
+  end
+
   test "get_repr(matrix, value_printer)" do
     matrix = new(@simple_3x3)
 
     printer = fn
+      # @TODO: map/filter over enum order k/v differently
       {i, _} when Integer.is_odd(i) -> " X "
       {_i, _} -> " O "
     end
@@ -176,6 +230,15 @@ defmodule AocTest.Matrix do
     assert get_repr(matrix, [{1, 0}, {2, 2}]) == " 1 [2] 3 \n 4  5  6 \n 7  8 [9]"
   end
 
+  @tag :skip
+  test "get_repr_with_labels" do
+    matrix = new([["A", "B", "C"], ["D", "E", "F"], ["H", "I", "J"]])
+    IO.puts("")
+    IO.puts("")
+    IO.puts("")
+    print_with_labels(matrix)
+  end
+
   test "map" do
     matrix =
       new([
@@ -184,6 +247,27 @@ defmodule AocTest.Matrix do
 
     mapped = map(matrix, fn {p, v} -> {p, v + 1} end)
     assert mapped == %Matrix{items: %{{0, 0} => 2, {1, 0} => 3, {2, 0} => 4}}
+  end
+
+  test "filter" do
+    matrix = new(@simple_3x3)
+
+    filter_fn = fn
+      {_, val} when Integer.is_odd(val) -> true
+      {_, _val} -> false
+    end
+
+    filtered = filter(matrix, filter_fn)
+
+    assert filtered == %Matrix{
+             items: %{
+               {0, 0} => 1,
+               {0, 2} => 7,
+               {1, 1} => 5,
+               {2, 0} => 3,
+               {2, 2} => 9
+             }
+           }
   end
 
   test "find_coordinate" do
